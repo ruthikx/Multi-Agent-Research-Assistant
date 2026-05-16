@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 224 71% 4%;
+  --foreground: 210 20% 98%;
+  --card: 222 47% 7%;
+  --card-foreground: 210 20% 98%;
+  --primary: 191 100% 60%;
+  --primary-foreground: 222 47% 11%;
+  --secondary: 222 47% 12%;
+  --secondary-foreground: 210 20% 98%;
+  --muted: 222 34% 12%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 231 68% 62%;
+  --accent-foreground: 210 20% 98%;
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  --ring: 191 100% 60%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.08), transparent 24%),
+    radial-gradient(circle at right, rgba(99, 102, 241, 0.12), transparent 26%),
+    #030712;
+  color: hsl(var(--foreground));
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.28);
+  color: white;
+}

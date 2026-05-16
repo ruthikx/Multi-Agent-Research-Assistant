@@ -1,0 +1,17 @@
+{
+  "node": {
+    "404f30b71d6774be1247d8df33c95ed6cfe3ab57ff": {
+      "workers": {
+        "app/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5Cwin10%5C%5CDocuments%5C%5CMultiAgentSystem%5C%5Cfrontend%5C%5Capp%5C%5Cactions.ts%22%2C%5B%5B%22404f30b71d6774be1247d8df33c95ed6cfe3ab57ff%22%2C%22saveLastTopicAction%22%5D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "GWFlHyX7ZaWxDouwYLZJI1MElnsWcIJK5Vy3PXhNDrg="
+}
