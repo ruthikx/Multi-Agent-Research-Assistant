@@ -3,25 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: 225 19% 8%;
-  --foreground: 210 20% 98%;
-  --card: 222 24% 13%;
-  --card-foreground: 210 20% 98%;
+  --background: 216 33% 97%;
+  --foreground: 224 30% 16%;
+  --card: 0 0% 100%;
+  --card-foreground: 224 30% 16%;
+  --panel: 220 30% 95%;
+  --panel-foreground: 224 24% 18%;
+  --primary: 191 90% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 24% 92%;
+  --secondary-foreground: 224 24% 18%;
+  --muted: 220 24% 92%;
+  --muted-foreground: 220 16% 42%;
+  --subtle-foreground: 220 12% 36%;
+  --accent: 191 90% 40%;
+  --accent-foreground: 0 0% 100%;
+  --border: 220 22% 86%;
+  --input: 220 24% 92%;
+  --ring: 191 90% 40%;
+}
+
+html[data-theme="dark"] {
+  --background: 224 25% 10%;
+  --foreground: 220 33% 96%;
+  --card: 223 24% 14%;
+  --card-foreground: 220 33% 96%;
+  --panel: 223 27% 19%;
+  --panel-foreground: 220 28% 92%;
   --primary: 190 95% 60%;
-  --primary-foreground: 222 47% 11%;
-  --secondary: 221 28% 19%;
-  --secondary-foreground: 210 20% 98%;
-  --muted: 222 24% 13%;
-  --muted-foreground: 215 20% 65%;
+  --primary-foreground: 223 47% 11%;
+  --secondary: 222 17% 22%;
+  --secondary-foreground: 220 28% 92%;
+  --muted: 222 17% 22%;
+  --muted-foreground: 217 17% 67%;
+  --subtle-foreground: 217 13% 53%;
   --accent: 190 95% 60%;
-  --accent-foreground: 210 20% 98%;
-  --border: 0 0% 100% / 0.08;
-  --input: 221 28% 19%;
+  --accent-foreground: 223 47% 11%;
+  --border: 221 20% 24%;
+  --input: 223 27% 19%;
   --ring: 190 95% 60%;
 }
 
 * {
-  border-color: hsla(var(--border));
+  border-color: hsl(var(--border));
 }
 
 html {
@@ -29,12 +53,15 @@ html {
 }
 
 body {
-  background: #0f1117;
+  background: hsl(var(--background));
   color: hsl(var(--foreground));
   font-feature-settings: "ss01" 1, "cv01" 1;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.28);
-  color: white;
+  background: hsl(var(--accent) / 0.28);
+  color: hsl(var(--foreground));
 }

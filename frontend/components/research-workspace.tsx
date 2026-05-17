@@ -8,6 +8,7 @@ import { saveLastTopicAction } from "@/app/actions";
 import { ResearchForm } from "@/components/research-form";
 import { ReportView } from "@/components/report-view";
 import { StepCard } from "@/components/step-card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import type { PipelineStep, ProgressEvent, ResearchResponse, StageName } from "@/lib/types";
@@ -124,23 +125,26 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
     <div className="space-y-6">
       <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge>Research workspace</Badge>
-            <Badge variant="muted" className="gap-2">
-              <Activity className="h-3.5 w-3.5" />
-              Live pipeline updates
-            </Badge>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge>Research workspace</Badge>
+              <Badge variant="muted" className="gap-2">
+                <Activity className="h-3.5 w-3.5" />
+                Live pipeline updates
+              </Badge>
+            </div>
+            <ThemeToggle />
           </div>
           <div className="space-y-3">
             <div>
-              <h1 className="max-w-4xl text-3xl font-medium leading-tight text-white md:text-4xl">
+              <h1 className="max-w-4xl text-3xl font-medium leading-tight text-[hsl(var(--foreground))] md:text-4xl">
                 A focused workspace for multi-agent research.
               </h1>
-              <p className="mt-3 max-w-4xl text-base leading-7 text-slate-400">
+              <p className="mt-3 max-w-4xl text-base leading-7 text-[hsl(var(--muted-foreground))]">
                 Run the team, follow each stage, and review the final synthesis without the usual AI dashboard clutter.
               </p>
             </div>
-            <Card className="bg-[#161b27]">
+            <Card className="shadow-sm">
               <div className="flex flex-wrap items-center gap-3 p-5">
                 {steps.map((step) => {
                   const meta = stageMeta[step.stage];
@@ -149,10 +153,10 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
                   return (
                     <div
                       key={step.stage}
-                      className="flex items-center gap-2 rounded-full border border-white/10 bg-[#1e2535] px-3 py-2 text-sm text-slate-200"
+                      className="flex items-center gap-2 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--panel))] px-3 py-2 text-sm text-[hsl(var(--panel-foreground))]"
                     >
-                      <Icon className="h-4 w-4 text-cyan-300" />
-                      <span className="font-medium text-white">{meta.fullName}</span>
+                      <Icon className="h-4 w-4 text-[hsl(var(--accent))]" />
+                      <span className="font-medium text-[hsl(var(--foreground))]">{meta.fullName}</span>
                     </div>
                   );
                 })}
@@ -164,12 +168,12 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
       </motion.section>
 
       {error ? (
-        <Card className="border-rose-400/20 bg-rose-500/10 p-5 text-rose-100">
+        <Card className="border-rose-500/20 bg-rose-500/10 p-5 text-rose-500">
           <div className="flex items-start gap-3">
             <AlertTriangle className="mt-0.5 h-5 w-5" />
             <div>
               <p className="font-medium">Research run failed</p>
-              <p className="mt-1 text-sm text-rose-100/80">{error}</p>
+              <p className="mt-1 text-sm text-rose-500/90">{error}</p>
             </div>
           </div>
         </Card>
@@ -188,12 +192,12 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
           <Card>
             <div className="space-y-3 p-5">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg border border-white/10 bg-[#1e2535] p-2 text-cyan-200">
+                <div className="rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--panel))] p-2 text-[hsl(var(--accent))]">
                   <Bot className="h-4 w-4" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">Agent status</p>
-                  <p className="text-sm text-slate-400">Compact view of each active stage.</p>
+                  <p className="text-sm font-medium text-[hsl(var(--foreground))]">Agent status</p>
+                  <p className="text-sm text-[hsl(var(--muted-foreground))]">Compact view of each active stage.</p>
                 </div>
               </div>
               <div className="space-y-2">
@@ -204,15 +208,15 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
                   return (
                     <div
                       key={`${step.stage}-status`}
-                      className="flex items-center justify-between gap-3 rounded-full border border-white/10 bg-[#1e2535] px-3 py-2.5"
+                      className="flex items-center justify-between gap-3 rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--panel))] px-3 py-2.5"
                     >
                       <div className="flex min-w-0 items-center gap-3">
-                        <div className="rounded-full bg-cyan-400/10 p-1.5 text-cyan-300">
+                        <div className="rounded-full bg-[hsl(var(--accent)/0.12)] p-1.5 text-[hsl(var(--accent))]">
                           <Icon className="h-3.5 w-3.5" />
                         </div>
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-medium text-white">{meta.shortName}</p>
-                          <p className="truncate text-xs text-slate-500">{step.detail}</p>
+                          <p className="truncate text-sm font-medium text-[hsl(var(--foreground))]">{meta.shortName}</p>
+                          <p className="truncate text-xs text-[hsl(var(--subtle-foreground))]">{step.detail}</p>
                         </div>
                       </div>
                       <Badge
@@ -230,12 +234,12 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
 
           <Card>
             <div className="flex items-center gap-3 p-5 pb-0">
-              <div className="rounded-lg border border-white/10 bg-[#1e2535] p-2 text-cyan-200">
+              <div className="rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--panel))] p-2 text-[hsl(var(--accent))]">
                 <SearchCode className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-sm font-medium text-white">Execution trace</p>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm font-medium text-[hsl(var(--foreground))]">Execution trace</p>
+                <p className="text-sm text-[hsl(var(--muted-foreground))]">
                   {loading ? `${activeStage}...` : "Detailed outputs from each stage."}
                 </p>
               </div>

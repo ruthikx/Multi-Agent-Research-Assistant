@@ -25,13 +25,13 @@ export function ResearchForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-xl border border-white/10 bg-[#161b27] p-2">
+    <form onSubmit={handleSubmit} className="rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-2 shadow-sm">
       <div className="flex flex-col gap-2 md:flex-row md:items-center">
         <Input
           value={topic}
           onChange={(event) => setTopic(event.target.value)}
           placeholder="Ask the research team about AI regulation, market trends, startup landscapes..."
-          className="h-[52px] flex-1 border-transparent bg-transparent px-4 text-base focus:bg-[#161b27]"
+          className="h-[52px] flex-1 border-transparent bg-transparent px-4 text-base focus:bg-transparent"
         />
         <Button type="submit" size="lg" className="shrink-0 rounded-lg px-5 md:min-w-[170px]" disabled={loading}>
           {loading ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : <ArrowUpRight className="mr-2 h-4 w-4" />}
