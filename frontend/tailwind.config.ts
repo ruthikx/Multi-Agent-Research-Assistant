@@ -33,15 +33,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["var(--font-space-grotesk)"],
-        body: ["var(--font-ibm-plex-sans)"],
-      },
-      boxShadow: {
-        glow: "0 0 0 1px rgba(255,255,255,0.06), 0 24px 80px rgba(12, 24, 68, 0.45)",
-      },
-      backgroundImage: {
-        "grid-fade":
-          "linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)",
+        display: ["var(--font-inter)"],
+        body: ["var(--font-inter)"],
       },
     },
   },

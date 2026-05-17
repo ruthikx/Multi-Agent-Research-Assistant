@@ -18,7 +18,7 @@ export function StatusPill({ status }: { status: StageStatus }) {
   const Icon = config.icon;
 
   return (
-    <Badge variant={config.variant} className="gap-2">
+    <Badge variant={config.variant} className="gap-1.5 px-2.5 py-1 text-[11px]">
       <Icon className={`h-3.5 w-3.5 ${status === "running" ? "animate-spin" : ""}`} />
       {config.label}
     </Badge>

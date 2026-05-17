@@ -1,11 +1,10 @@
 "use client";
 
-import { Activity, AlertTriangle, SearchCode } from "lucide-react";
+import { Activity, AlertTriangle, Bot, FileSearch2, PenSquare, SearchCode, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useTransition } from "react";
 
 import { saveLastTopicAction } from "@/app/actions";
-import { CriticFeedback } from "@/components/critic-feedback";
 import { ResearchForm } from "@/components/research-form";
 import { ReportView } from "@/components/report-view";
 import { StepCard } from "@/components/step-card";
@@ -22,6 +21,23 @@ const baseSteps: PipelineStep[] = [
 ];
 
 const stageOrdering: StageName[] = ["search", "read", "write", "critique"];
+
+const stageMeta: Record<
+  StageName,
+  { shortName: string; fullName: string; icon: typeof SearchCode }
+> = {
+  search: { shortName: "Search Agent", fullName: "Search Agent", icon: SearchCode },
+  read: { shortName: "Reader Agent", fullName: "Reader Agent", icon: FileSearch2 },
+  write: { shortName: "Writer Chain", fullName: "Writer Chain", icon: PenSquare },
+  critique: { shortName: "Critic Chain", fullName: "Critic Chain", icon: ShieldCheck },
+};
+
+const statusLabelMap = {
+  idle: "Idle",
+  running: "Running",
+  completed: "Completed",
+  failed: "Failed",
+} as const;
 
 function mergeStepState(existingSteps: PipelineStep[], event: ProgressEvent): PipelineStep[] {
   if (!event.stage || !event.label || !event.status || !event.detail) {
@@ -105,25 +121,45 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
   }
 
   return (
-    <div className="flex-1 space-y-6">
-      <motion.section initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
-        <div className="mb-5 flex flex-wrap items-center gap-3">
-          <Badge>AI Research Workspace</Badge>
-          <Badge variant="muted" className="gap-2">
-            <Activity className="h-3.5 w-3.5" />
-            Live Pipeline Updates
-          </Badge>
-        </div>
+    <div className="space-y-6">
+      <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
         <div className="space-y-4">
-          <div>
-            <h2 className="font-display text-4xl leading-tight text-white md:text-5xl">
-              Modern research workflows with visible agent reasoning.
-            </h2>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
-              Ask a question, watch each agent progress in real time, then review the generated report and critic feedback in one place.
-            </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge>Research workspace</Badge>
+            <Badge variant="muted" className="gap-2">
+              <Activity className="h-3.5 w-3.5" />
+              Live pipeline updates
+            </Badge>
           </div>
-          <ResearchForm onSubmit={handleResearch} loading={loading} initialTopic={initialTopic} />
+          <div className="space-y-3">
+            <div>
+              <h1 className="max-w-4xl text-3xl font-medium leading-tight text-white md:text-4xl">
+                A focused workspace for multi-agent research.
+              </h1>
+              <p className="mt-3 max-w-4xl text-base leading-7 text-slate-400">
+                Run the team, follow each stage, and review the final synthesis without the usual AI dashboard clutter.
+              </p>
+            </div>
+            <Card className="bg-[#161b27]">
+              <div className="flex flex-wrap items-center gap-3 p-5">
+                {steps.map((step) => {
+                  const meta = stageMeta[step.stage];
+                  const Icon = meta.icon;
+
+                  return (
+                    <div
+                      key={step.stage}
+                      className="flex items-center gap-2 rounded-full border border-white/10 bg-[#1e2535] px-3 py-2 text-sm text-slate-200"
+                    >
+                      <Icon className="h-4 w-4 text-cyan-300" />
+                      <span className="font-medium text-white">{meta.fullName}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </Card>
+            <ResearchForm onSubmit={handleResearch} loading={loading} initialTopic={initialTopic} />
+          </div>
         </div>
       </motion.section>
 
@@ -139,34 +175,81 @@ export function ResearchWorkspace({ initialTopic }: { initialTopic?: string }) {
         </Card>
       ) : null}
 
-      <div className="grid gap-6 xl:grid-cols-[1.1fr,0.9fr]">
-        <div className="space-y-6">
-          <ReportView report={response?.report || ""} loading={loading} stageLabel={activeStage} />
-          <CriticFeedback feedback={response?.feedback || ""} />
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.9fr)_minmax(320px,1fr)]">
+        <div>
+          <ReportView
+            report={response?.report || ""}
+            feedback={response?.feedback || ""}
+            loading={loading}
+            stageLabel={activeStage}
+          />
         </div>
-
         <div className="space-y-4">
-          <Card className="p-5">
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-2 text-cyan-200">
-                <SearchCode className="h-4 w-4" />
+          <Card>
+            <div className="space-y-3 p-5">
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg border border-white/10 bg-[#1e2535] p-2 text-cyan-200">
+                  <Bot className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">Agent status</p>
+                  <p className="text-sm text-slate-400">Compact view of each active stage.</p>
+                </div>
               </div>
-              <div>
-                <p className="font-display text-lg text-white">Execution Trace</p>
-                <p className="text-sm text-slate-400">
-                  {loading ? `${activeStage}...` : "Each agent stage is captured in a collapsible card."}
-                </p>
+              <div className="space-y-2">
+                {steps.map((step) => {
+                  const meta = stageMeta[step.stage];
+                  const Icon = meta.icon;
+
+                  return (
+                    <div
+                      key={`${step.stage}-status`}
+                      className="flex items-center justify-between gap-3 rounded-full border border-white/10 bg-[#1e2535] px-3 py-2.5"
+                    >
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="rounded-full bg-cyan-400/10 p-1.5 text-cyan-300">
+                          <Icon className="h-3.5 w-3.5" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-medium text-white">{meta.shortName}</p>
+                          <p className="truncate text-xs text-slate-500">{step.detail}</p>
+                        </div>
+                      </div>
+                      <Badge
+                        variant={step.status === "failed" ? "danger" : step.status === "idle" ? "muted" : "default"}
+                        className="shrink-0"
+                      >
+                        {statusLabelMap[step.status]}
+                      </Badge>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </Card>
 
-          {steps.map((step, index) => (
-            <StepCard
-              key={`${step.stage}-${index}-${step.status}`}
-              step={step}
-              openByDefault={step.status === "running" || step.status === "completed"}
-            />
-          ))}
+          <Card>
+            <div className="flex items-center gap-3 p-5 pb-0">
+              <div className="rounded-lg border border-white/10 bg-[#1e2535] p-2 text-cyan-200">
+                <SearchCode className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-white">Execution trace</p>
+                <p className="text-sm text-slate-400">
+                  {loading ? `${activeStage}...` : "Detailed outputs from each stage."}
+                </p>
+              </div>
+            </div>
+            <div className="space-y-4 p-5">
+              {steps.map((step, index) => (
+                <StepCard
+                  key={`${step.stage}-${index}-${step.status}`}
+                  step={step}
+                  openByDefault={step.status === "running" || step.status === "completed"}
+                />
+              ))}
+            </div>
+          </Card>
         </div>
       </div>
     </div>
