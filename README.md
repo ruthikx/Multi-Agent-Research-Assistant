@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Multi-Agent Research Assistant
 
 A production-style full-stack AI research assistant built with a modern Next.js 15 frontend and a FastAPI backend. The app coordinates a four-stage research workflow:
@@ -162,3 +163,6 @@ Open `http://localhost:3000`.
 - The original root-level `agents.py`, `pipeline.py`, and `tools.py` were left in place.
 - The app expects valid Mistral and Tavily credentials before research runs will succeed.
 - The streaming UI is powered through a Next.js API proxy so the browser never has to call FastAPI directly.
+=======
+# Multi-Agent-Research-Assistant
+>>>>>>> 6cfcc123cdd5749f7cac92748fa685008ce338d4
